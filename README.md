@@ -15,7 +15,7 @@ This API is build for managing product and category. There are different endpoin
 
 ## Setup Database
 
-*** Database name - product_category_api
+* Database name - product_category_api
 
 ## Setup Code in System
 
@@ -25,7 +25,7 @@ This API is build for managing product and category. There are different endpoin
 * Now API is ready start using the endpoints from postman.
 
 # Postman Documentation
-*** This is the link to access postman documentation 
+* This is the link to access postman documentation 
 https://documenter.getpostman.com/view/16860081/UUxwCozX
 
 
