@@ -3,6 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const APIFeatures = require('../utils/APIFeatures');
 
+//Create a new Category 
 exports.createCategory = catchAsync(
     async (req, res, next) => {
 
@@ -17,9 +18,13 @@ exports.createCategory = catchAsync(
     }
 );
 
+// Get a Specific Category
 exports.getCategory = catchAsync(
     async (req, res, next) => {
 
+
+        //Quering category by Id commit from parameter 
+        // Hiding __v
         const query = Category.findById(req.params.id).select('-__v');
         const category = await query;
 
@@ -28,7 +33,7 @@ exports.getCategory = catchAsync(
             return next(new AppError('No Category found for given id', 404));
         }
 
-        // const tour = Tour.findOne({ _id: req.prams.id });
+        // Send response
         res.status(200)
             .json({
                 status: "success",
@@ -39,16 +44,18 @@ exports.getCategory = catchAsync(
     }
 );
 
+// Get all Categories
 exports.getAllCategories = catchAsync(
     async (req, res, next) => {
 
-        // Execute the query
+        // Execute the query with somany features 
         const features = new APIFeatures(Category.find(), req.query)
             .filter()
             .sort()
             .limitFields()
             .paginate();
 
+        // Awaiting the query at the end to get actual result
         const category = await features.query;
 
         // Return an error if tour is not found
@@ -68,9 +75,11 @@ exports.getAllCategories = catchAsync(
     }
 );
 
+// Update a specific product
 exports.updateCategory = catchAsync(
     async (req, res, next) => {
 
+        // Find query with Id comming from parameter and update it with data comming from req body
         const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
@@ -80,7 +89,7 @@ exports.updateCategory = catchAsync(
         if (!category) {
             return next(new AppError('No category found with given id', 404));
         }
-
+        // Send response
         res.status(200).json({
             status: 'success',
             data: {
@@ -90,15 +99,18 @@ exports.updateCategory = catchAsync(
     }
 );
 
+// Delete Specific product
 exports.deleteCategory = catchAsync(
     async (req, res, next) => {
+
+        // Find category by Id commig from parameter and delete it
         const category = await Category.findByIdAndDelete(req.params.id);
 
         // Return an error if tour is not found
         if (!category) {
             return next(new AppError('No category was found with given id', 404));
         }
-
+        // Send respounse
         res.status(204).json({
             status: 'success',
             data: null
